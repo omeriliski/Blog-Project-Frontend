@@ -1,8 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -13,8 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import {styles,NavLogo} from './Navbar.style'
 import logo from '../../assets/logo.png'
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+import {Grid,Link,Button,makeStyles} from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,18 +44,18 @@ export function MenuAppBar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" className={classes.header}>
+      <AppBar position="fixed" className={classes.header}>
         <Toolbar>
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <NavLogo src={logo}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Link className={classes.link} href="#" color="inherit">Our Story</Link>
-                    <Link className={classes.link} href="#" color="inherit">Membership</Link>
-                    <Link className={classes.link} href="#" color="inherit">Write</Link>
-                    <Link className={classes.link} href="#" color="inherit">Sign In</Link>
+                    <Link className={classes.link} href="#" variant="body2" color="inherit">Our Story</Link>
+                    <Link className={classes.link} href="#" variant="body2" color="inherit">Membership</Link>
+                    <Link className={classes.link} href="#" variant="body2" color="inherit">Write</Link>
+                    <Link className={classes.link} href="#" variant="body2" color="inherit">Sign In</Link>
+                    <Button className={classes.getStarted} variant="contained">Get Started</Button>
                 </Grid>
             </Grid>
           {/* {auth && (
@@ -94,6 +91,5 @@ export function MenuAppBar() {
           )} */}
         </Toolbar>
       </AppBar>
-    </div>
   );
 }

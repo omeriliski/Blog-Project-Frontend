@@ -3,3 +3,13 @@ npm start
 yarn add react-router-dom
 yarn add @material-ui/icons
 yarn add styled-components
+yarn add axios
+
+
+not:
+backend
+1- post_read_time ekle
+2- author_name düzelt
+3- en fazla post_view'i olan 6 post'u getir.
+
+frontend:
