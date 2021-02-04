@@ -1,4 +1,4 @@
-import React from 'react';
+import {React,useContext,useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,6 +12,7 @@ import Menu from '@material-ui/core/Menu';
 import {styles,NavLogo} from './Navbar.style'
 import logo from '../../assets/logo.png'
 import {Grid,Link,Button,makeStyles} from '@material-ui/core'
+import {Context} from '../../router/Router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 export function MenuAppBar() {
   const classes = styles();
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const consumer = useContext(Context);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -54,41 +56,18 @@ export function MenuAppBar() {
                     <Link className={classes.link} href="#" variant="body2" color="inherit">Our Story</Link>
                     <Link className={classes.link} href="#" variant="body2" color="inherit">Membership</Link>
                     <Link className={classes.link} href="#" variant="body2" color="inherit">Write</Link>
-                    <Link className={classes.link} href="#" variant="body2" color="inherit">Sign In</Link>
-                    <Button className={classes.getStarted} variant="contained">Get Started</Button>
-                </Grid>
+                    {localStorage.getItem("token") ?
+                    <>
+                      <Link className={classes.link} onClick={consumer.signOut} href="/" variant="body2" color="inherit">Sign Out</Link>
+                      <Button>{localStorage.getItem("email")}</Button>
+                    </>
+                    :<>
+                      <Link className={classes.link} href="#" variant="body2" color="inherit">Sign In</Link>
+                       <Button className={classes.getStarted} variant="contained" onClick={()=>consumer.handleOpenLogin()}>Get Started</Button>
+                    </>
+                    }
+                    </Grid>
             </Grid>
-          {/* {auth && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
-          )} */}
         </Toolbar>
       </AppBar>
   );

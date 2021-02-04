@@ -7,7 +7,7 @@ export const styles = makeStyles({
     backgroundImage:`url(${image})`,
     height:"24.5rem",
     borderBottom:"1px solid black",
-    marginTop:"4.1rem"
+    marginTop:"4rem"
   },
   containerLeft:{
     position:"relative",

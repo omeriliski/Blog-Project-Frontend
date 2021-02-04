@@ -21,6 +21,8 @@ const useStyles = makeStyles({
   },
   pos: {
     marginBottom: 12,
+    marginLeft:"5rem",
+    textAlign:"left"
   },
 });
 
@@ -36,8 +38,8 @@ export default function SimpleCard({data}) {
         <Typography style={{textTransform:"none"}} variant="button">
             <b>{data?.title}</b>
         </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-            {Moment(data?.publish_date).format('d MMMM')}
+        <Typography className={classes.pos} variant="body2" color="textSecondary" display="block">
+            {Moment(data?.publish_date).format('MMM d')}
         </Typography>
       </CardContent>
     </Card>

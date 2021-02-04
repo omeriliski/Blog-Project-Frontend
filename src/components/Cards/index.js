@@ -12,31 +12,30 @@ const Cards=()=>{
                     {
                         <>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[0]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[0]}/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[1]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[1]}/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[2]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[2]}/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[3]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[3]}/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[4]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[4]}/>
                             </Grid>
                             <Grid item xs={12} sm={6} md={4}>
-                                <SimpleCard data={consumer?.results?.[5]}/>
+                                <SimpleCard data={consumer?.posts?.results?.[5]}/>
                             </Grid>
                         </>
                      }
             </Grid>
             <Grid container>
-
             <Grid style={{marginLeft:"3rem"}} xs={12} md={6} >
                 {   
-                    consumer?.results?.map(res=>{
+                    consumer?.posts?.results?.map(res=>{
                         return <Grid>
                             <MediaControlCard data={res}/>
                         </Grid>   

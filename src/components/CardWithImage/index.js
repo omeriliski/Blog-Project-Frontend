@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     
   },
   cover: {
-    width: 450,
+    width: "500px",
   }
 }));
 
@@ -43,8 +43,8 @@ export default function MediaControlCard({data}) {
           <Typography align="left" variant="subtitle2" color="textSecondary">
             {data?.content?.length > 150 ? data?.content?.substring(0, 147) + "..." : data?.content}
           </Typography>
-          <Typography align="left" variant="subtitle1" color="textSecondary">
-            {Moment(data?.publish_date).format('d MMMM')}
+          <Typography align="left" variant="body2" color="textSecondary">
+            {Moment(data?.publish_date).format('MMM d YYYY')}
           </Typography>
         </CardContent>
       </div>
