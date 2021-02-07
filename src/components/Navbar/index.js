@@ -1,14 +1,6 @@
 import {React,useContext,useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import {styles,NavLogo} from './Navbar.style'
 import logo from '../../assets/logo.png'
 import {Grid,Link,Button,makeStyles} from '@material-ui/core'
@@ -46,7 +38,7 @@ export function MenuAppBar() {
   };
 
   return (
-      <AppBar position="fixed" className={classes.header}>
+      <AppBar className={classes.header}>
         <Toolbar>
             <Grid container>
                 <Grid item xs={12} md={6}>
@@ -55,14 +47,14 @@ export function MenuAppBar() {
                 <Grid item xs={12} md={6}>
                     <Link className={classes.link} href="#" variant="body2" color="inherit">Our Story</Link>
                     <Link className={classes.link} href="#" variant="body2" color="inherit">Membership</Link>
-                    <Link className={classes.link} href="#" variant="body2" color="inherit">Write</Link>
+                    <Link className={classes.link} href="/new-story" variant="body2" color="inherit">Write</Link>
                     {localStorage.getItem("token") ?
                     <>
                       <Link className={classes.link} onClick={consumer.signOut} href="/" variant="body2" color="inherit">Sign Out</Link>
                       <Button>{localStorage.getItem("email")}</Button>
                     </>
                     :<>
-                      <Link className={classes.link} href="#" variant="body2" color="inherit">Sign In</Link>
+                      <Link className={classes.link} onClick={()=>consumer.handleOpenRegister()} href="#" variant="body2" color="inherit">Register</Link>
                        <Button className={classes.getStarted} variant="contained" onClick={()=>consumer.handleOpenLogin()}>Get Started</Button>
                     </>
                     }
