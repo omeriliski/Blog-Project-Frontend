@@ -21,7 +21,8 @@ const AppRouter=()=>{
     const [content,setContent] = useState();
     const [categories,setCategories] = useState();
     const [category,setCategory] = useState();
-
+    const [usersPosts,setUsersPost]=useState();
+    const [comments,setComments]=useState([]);
     //Login Modal
     const handleOpenLogin = () => {
         setOpenLogin(true);
@@ -84,6 +85,26 @@ const AppRouter=()=>{
             console.log(category)
         })
     }
+    const getUsersPosts=()=>{
+        privateFetchData("https://mein-blog-projekt.herokuapp.com/api/get_usersposts/")
+        .then((res)=>{
+            setUsersPost(res);
+            console.log("users posts",res)
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+    const getComments=()=>{
+        privateFetchData("https://mein-blog-projekt.herokuapp.com/api/1/get_comments/")
+        .then((res)=>{
+            setComments(res);
+            console.log("getComments",res)
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
     useEffect(() => {
         fetchData("https://mein-blog-projekt.herokuapp.com/api/get_posts/")
         .then(res=>{
@@ -93,7 +114,8 @@ const AppRouter=()=>{
     }, [])
     return(
         <Context.Provider value={{posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
-            setCurrentUser,currentUser,signOut,savePost,setTitle,setContent,getCategories,categories,setCategory, category
+            setCurrentUser,currentUser,signOut,savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
+            getUsersPosts,getComments,comments
         }}>
             <Router>
                 <Switch>

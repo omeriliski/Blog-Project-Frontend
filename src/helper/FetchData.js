@@ -15,7 +15,7 @@ export const privateFetchData = async (path) => {
     const token = localStorage.getItem("token");
     const response = await axios.get(`${path}`, {
       headers: {
-        Authorization:"token"+token,
+        Authorization:"token "+token,
       },
     });
     return response?.data;
