@@ -6,13 +6,14 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import NewStory from '../pages/NewStory';
 import UsersStories from '../pages/UsersStories';
+import PostDetail from '../pages/PostDetail';
 import {postData} from '../helper/postData';
 import {privateFetchData} from '../helper/FetchData';
-
 export const Context=createContext();
 
 const AppRouter=()=>{
     const [posts,setPosts]=useState([]);
+    const [post,setPost]=useState();
     const [postView,setPostview]=useState();
     const [openLogin, setOpenLogin] = useState(false);
     const [openRegister, setOpenRegister] = useState(false);
@@ -22,7 +23,10 @@ const AppRouter=()=>{
     const [categories,setCategories] = useState();
     const [category,setCategory] = useState();
     const [usersPosts,setUsersPost]=useState();
-    const [comments,setComments]=useState([]);
+    const [comments,setComments]=useState();
+    const [newComment,setNewComment]=useState();
+
+    let history = useHistory();
     //Login Modal
     const handleOpenLogin = () => {
         setOpenLogin(true);
@@ -76,6 +80,7 @@ const AppRouter=()=>{
             image:"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cyclooil.com%2Fimages%2F&psig=AOvVaw0N6O-AfOMPh3Mn6bzhXLph&ust=1612731828713000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDdtrGU1u4CFQAAAAAdAAAAABAD",
             category:category,
             author:1
+            //author musst be fixed
         })
         .then(()=>{
             console.log("saved successfully")
@@ -98,13 +103,37 @@ const AppRouter=()=>{
     const getComments=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/api/1/get_comments/")
         .then((res)=>{
-            setComments(res);
             console.log("getComments",res)
+            setComments(res);
         })
         .catch(err=>{
             console.log(err);
         })
     }
+    const getPostDetails=(postId)=>{
+         fetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_post/`)
+         .then((res)=>{
+            setPost(res.data);
+            console.log("PostDetails",res);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+    const createComment=(postId)=>{
+        postData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/create_comment/`,{
+            content:newComment,
+            user:1
+        })
+        .then(()=>{
+            console.log("Comment saved");
+            getComments();
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+
     useEffect(() => {
         fetchData("https://mein-blog-projekt.herokuapp.com/api/get_posts/")
         .then(res=>{
@@ -115,12 +144,13 @@ const AppRouter=()=>{
     return(
         <Context.Provider value={{posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
             setCurrentUser,currentUser,signOut,savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
-            getUsersPosts,getComments,comments
+            getUsersPosts,getComments,comments,getPostDetails,post,createComment,newComment,setNewComment
         }}>
             <Router>
                 <Switch>
                     <NewStory exact path="/new-story" component={NewStory}></NewStory>
                     <UsersStories exact path="/users-stories" component={UsersStories}></UsersStories>
+                    <PostDetail exact path="/post-detail" component={PostDetail}></PostDetail>
                     <Route path="/" component={HomePage}></Route>
                 </Switch>
             </Router>
