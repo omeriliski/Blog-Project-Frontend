@@ -25,6 +25,7 @@ const AppRouter=()=>{
     const [usersPosts,setUsersPost]=useState();
     const [comments,setComments]=useState();
     const [newComment,setNewComment]=useState();
+    const [like,setLike]=useState();
 
     let history = useHistory();
     //Login Modal
@@ -87,7 +88,6 @@ const AppRouter=()=>{
         })
         .catch((err)=>{
             console.log(err);
-            console.log(category)
         })
     }
     const getUsersPosts=()=>{
@@ -100,21 +100,23 @@ const AppRouter=()=>{
             console.log(err);
         })
     }
-    const getComments=()=>{
-        privateFetchData("https://mein-blog-projekt.herokuapp.com/api/1/get_comments/")
+    const getComments=(postId)=>{
+        //burada hata var!
+        let id=post?.id
+        privateFetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_comments/`)
         .then((res)=>{
-            console.log("getComments",res)
             setComments(res);
         })
         .catch(err=>{
-            console.log(err);
+            console.log(err);  
         })
     }
     const getPostDetails=(postId)=>{
          fetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_post/`)
          .then((res)=>{
             setPost(res.data);
-            console.log("PostDetails",res);
+            getComments(postId);
+            getLikesCount(postId)
         })
         .catch(err=>{
             console.log(err);
@@ -133,7 +135,27 @@ const AppRouter=()=>{
             console.log(err)
         })
     }
-
+    const getLikesCount=(postId)=>{
+        privateFetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_likes/`)
+        .then((res)=>{
+            setLike(res);
+            console.log("getLikesCount",res)
+        })
+        .catch(err=>{
+            console.log(err);  
+        })
+    }
+    const createDeleteLike=(postId)=>{
+        postData(`https://dashboard.heroku.com/apps/mein-blog-projekt/${postId}/create_delete_like/`)
+        .then((res)=>{
+            console.log("liked",res);
+            getLikesCount(postId);
+        })
+        .catch(err=>{
+            console.log("disliked");  
+            console.log(err);  
+        })
+    }
     useEffect(() => {
         fetchData("https://mein-blog-projekt.herokuapp.com/api/get_posts/")
         .then(res=>{
@@ -144,7 +166,7 @@ const AppRouter=()=>{
     return(
         <Context.Provider value={{posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
             setCurrentUser,currentUser,signOut,savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
-            getUsersPosts,getComments,comments,getPostDetails,post,createComment,newComment,setNewComment
+            getUsersPosts,getComments,comments,getPostDetails,post,createComment,newComment,setNewComment,like,createDeleteLike
         }}>
             <Router>
                 <Switch>

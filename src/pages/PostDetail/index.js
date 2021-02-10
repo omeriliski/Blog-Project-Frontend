@@ -12,9 +12,6 @@ const PostDetail = () => {
     // useEffect(() => {
     //     console.log("consumer?.post?.title",consumer?.post);
     // },[])
-    useEffect(() => {
-        consumer.getComments();
-    }, [])
     return (
         <Grid container className={classes.container}>
             <StoriesNavbar />
@@ -26,11 +23,16 @@ const PostDetail = () => {
                     <HeaderImage src={consumer.post?.image}></HeaderImage>
                     <Typography align="justify">{consumer.post?.content}</Typography><br />
                     <Grid>
+                        <CommentBar 
+                            likesCount={consumer?.like} 
+                            commentsCount={consumer?.comments?.length} 
+                            postId={consumer?.post?.id}
+                            createDeleteLike = {consumer.createDeleteLike}
+                        />
                         <TextField  onChange={(e)=>consumer.setNewComment(e.target.value)} fullWidth id="standard-basic"  placeholder="What are your thoughts?"/>
                         <Button onClick={()=>consumer.createComment(consumer?.post?.id)}>Save</Button>
                     </Grid>
                     <Grid>
-                        <CommentBar/>
                         {
                             consumer?.comments?.map((comment) => {
                                return <Comment comment={comment}/>
