@@ -9,6 +9,7 @@ import UsersStories from '../pages/UsersStories';
 import PostDetail from '../pages/PostDetail';
 import {postData} from '../helper/postData';
 import {privateFetchData} from '../helper/FetchData';
+import Profile from '../pages/Profile';
 export const Context=createContext();
 
 const AppRouter=()=>{
@@ -18,6 +19,7 @@ const AppRouter=()=>{
     const [openLogin, setOpenLogin] = useState(false);
     const [openRegister, setOpenRegister] = useState(false);
     const [currentUser,setCurrentUser] = useState();
+    const [profile,setProfile] = useState()
     const [title,setTitle] = useState();
     const [content,setContent] = useState();
     const [categories,setCategories] = useState();
@@ -26,6 +28,7 @@ const AppRouter=()=>{
     const [comments,setComments]=useState();
     const [newComment,setNewComment]=useState();
     const [like,setLike]=useState();
+
 
     let history = useHistory();
     //Login Modal
@@ -52,6 +55,27 @@ const AppRouter=()=>{
         fetchData()
     }
 
+    const signIn=(formik)=>{
+        axios.post("https://mein-blog-projekt.herokuapp.com/auth/login/", {
+          email:formik.values.Email,
+          password:formik.values.Password
+        })
+            .then((data) => {
+                localStorage.setItem("token", data.data.key);
+                localStorage.setItem("email", formik.values.Email);
+                setCurrentUser(data);
+                getProfile();
+                console.log("token", data.data.key);
+                console.log("data", data);
+                handleCloseLogin();
+            })
+            .catch((err) => {
+                console.log(err)
+                alert("Wrong Password or username", err);
+                // consumer.snackBarHandleClick();
+                // toast(err?.message || "An error occured");
+            });
+    }
     const signOut=()=>{
         // axios.post("https://mein-blog-projekt.herokuapp.com/auth/logout/")
         // .then(()=>{
@@ -64,6 +88,16 @@ const AppRouter=()=>{
         //     console.log(err);
         // })
     } 
+    const getProfile=()=>{
+        privateFetchData("https://mein-blog-projekt.herokuapp.com/users/get_update_profile/")
+        .then((res)=>{
+            console.log("res",res);
+            setProfile(res);
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
     const getCategories=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/api/get_categories/",)
         .then((res)=>{
@@ -125,11 +159,11 @@ const AppRouter=()=>{
     const createComment=(postId)=>{
         postData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/create_comment/`,{
             content:newComment,
-            user:1
+            user:profile?.user
         })
         .then(()=>{
             console.log("Comment saved");
-            getComments();
+            getComments(postId);
         })
         .catch((err)=>{
             console.log(err)
@@ -164,8 +198,8 @@ const AppRouter=()=>{
         .catch(err=>console.log(err))
     }, [])
     return(
-        <Context.Provider value={{posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
-            setCurrentUser,currentUser,signOut,savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
+        <Context.Provider value={{signIn,signOut,posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
+            savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
             getUsersPosts,getComments,comments,getPostDetails,post,createComment,newComment,setNewComment,like,createDeleteLike
         }}>
             <Router>
@@ -173,6 +207,7 @@ const AppRouter=()=>{
                     <NewStory exact path="/new-story" component={NewStory}></NewStory>
                     <UsersStories exact path="/users-stories" component={UsersStories}></UsersStories>
                     <PostDetail exact path="/post-detail" component={PostDetail}></PostDetail>
+                    <Profile exact path="/profile" component={Profile}></Profile>
                     <Route path="/" component={HomePage}></Route>
                 </Switch>
             </Router>

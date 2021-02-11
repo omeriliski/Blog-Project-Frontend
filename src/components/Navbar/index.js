@@ -51,7 +51,7 @@ export function MenuAppBar() {
                     {localStorage.getItem("token") ?
                     <>
                       <Link className={classes.link} onClick={consumer.signOut} href="/" variant="body2" color="inherit">Sign Out</Link>
-                      <Button>{localStorage.getItem("email")}</Button>
+                      <Link href="/profile">{localStorage.getItem("email")}</Link>
                     </>
                     :<>
                       <Link className={classes.link} onClick={()=>consumer.handleOpenRegister()} href="#" variant="body2" color="inherit">Register</Link>

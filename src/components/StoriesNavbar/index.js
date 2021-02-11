@@ -45,11 +45,11 @@ export function StoriesNavbar() {
         <Toolbar>
             <Grid container>
                   <Grid item xs={12} md={6} className={classes.username}>
-                    <Link href="/" variant="h5">Ömer.</Link>
-                    <Link href="/" variant="body2" className={classes.about}>About</Link>
+                    <Link href="/users-stories" variant="h5">Ömer.</Link>
+                    <Link href="/profile" variant="body2" className={classes.about}>About</Link>
                   </Grid>
                   <Grid item xs={6} md={4} className={classes.email}>
-                    <Button>{localStorage.getItem("email")}</Button>  
+                  <Link href="/profile">{localStorage.getItem("email")}</Link>
                   </Grid>
                   <Grid item xs={6} md={2}>
                     <Link href="/"><NavLogo src={logo2}/></Link> 

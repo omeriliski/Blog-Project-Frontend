@@ -54,7 +54,7 @@ export function PrivateNavbar() {
                     <Button href="/users-stories" onClick={()=>consumer.savePost()} className={classes.publishButton} variant="contained" size="small" >Publish</Button>
                     <Button><MoreHorizIcon className={classes.moreIcon}/></Button>
                     <Button><NotificationsNoneOutlinedIcon style={{color:"gray"}}/></Button>
-                    <Button>{localStorage.getItem("email")}</Button>  
+                    <Link href="/profile">{localStorage.getItem("email")}</Link>
                   </Grid>
             </Grid>
         </Toolbar>

@@ -33,23 +33,24 @@ export default function Login() {
     const consumer = useContext(Context);
 
     const onFinish = (values) => {
-        axios.post("https://mein-blog-projekt.herokuapp.com/auth/login/", {
-          email:formik.values.Email,
-          password:formik.values.Password
-        })
-            .then((data) => {
-                localStorage.setItem("token", data.data.key);
-                localStorage.setItem("email", formik.values.Email);
-                console.log("token", data.data.key);
-                console.log("currentUser", formik.values);
-                consumer.handleCloseLogin();
-            })
-            .catch((err) => {
-                console.log(err)
-                alert("Wrong Password or username", err);
-                // consumer.snackBarHandleClick();
-                // toast(err?.message || "An error occured");
-            });
+        consumer.signIn(formik);
+        // axios.post("https://mein-blog-projekt.herokuapp.com/auth/login/", {
+        //   email:formik.values.Email,
+        //   password:formik.values.Password
+        // })
+        //     .then((data) => {
+        //         localStorage.setItem("token", data.data.key);
+        //         localStorage.setItem("email", formik.values.Email);
+        //         console.log("token", data.data.key);
+        //         console.log("currentUser", formik.values);
+        //         consumer.handleCloseLogin();
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //         alert("Wrong Password or username", err);
+        //         // consumer.snackBarHandleClick();
+        //         // toast(err?.message || "An error occured");
+        //     });
     };
     const formik = useFormik({
         initialValues: {
