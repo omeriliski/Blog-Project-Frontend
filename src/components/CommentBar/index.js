@@ -21,6 +21,7 @@ const CommentBar=({likesCount,commentsCount,postId,createDeleteLike})=>{
                 <Typography className={classes.typography} variant="body2">{commentsCount} responses</Typography>
                 {/* <Typography className={classess.typography} variant="body2"></Typography> */}
             </Grid>
+            <Link href="/edit-post">Edit Post</Link>
         </Grid>
     )
 }

@@ -10,6 +10,8 @@ import PostDetail from '../pages/PostDetail';
 import {postData} from '../helper/postData';
 import {privateFetchData} from '../helper/FetchData';
 import Profile from '../pages/Profile';
+import EditPost from '../pages/EditPost';
+
 export const Context=createContext();
 
 const AppRouter=()=>{
@@ -19,7 +21,7 @@ const AppRouter=()=>{
     const [openLogin, setOpenLogin] = useState(false);
     const [openRegister, setOpenRegister] = useState(false);
     const [currentUser,setCurrentUser] = useState();
-    const [profile,setProfile] = useState()
+    const [profile,setProfile] = useState();
     const [title,setTitle] = useState();
     const [content,setContent] = useState();
     const [categories,setCategories] = useState();
@@ -60,21 +62,21 @@ const AppRouter=()=>{
           email:formik.values.Email,
           password:formik.values.Password
         })
-            .then((data) => {
-                localStorage.setItem("token", data.data.key);
-                localStorage.setItem("email", formik.values.Email);
-                setCurrentUser(data);
-                getProfile();
-                console.log("token", data.data.key);
-                console.log("data", data);
-                handleCloseLogin();
-            })
-            .catch((err) => {
-                console.log(err)
-                alert("Wrong Password or username", err);
-                // consumer.snackBarHandleClick();
-                // toast(err?.message || "An error occured");
-            });
+        .then((res) => {
+            localStorage.setItem("token", res.data.key);
+            localStorage.setItem("email", formik.values.Email);
+            setCurrentUser(res.config.data);
+            console.log("token", res.data.key);
+            console.log("data", res.config.data);
+            handleCloseLogin();
+            getProfile();
+        })
+        .catch((err) => {
+            console.log(err)
+            alert("Wrong Password or username", err);
+            // consumer.snackBarHandleClick();
+            // toast(err?.message || "An error occured");
+        });
     }
     const signOut=()=>{
         // axios.post("https://mein-blog-projekt.herokuapp.com/auth/logout/")
@@ -93,6 +95,7 @@ const AppRouter=()=>{
         .then((res)=>{
             console.log("res",res);
             setProfile(res);
+            console.log("currentUser",currentUser)
         })
         .catch((err)=>{
             console.log(err)
@@ -151,6 +154,7 @@ const AppRouter=()=>{
             setPost(res.data);
             getComments(postId);
             getLikesCount(postId)
+            console.log("post details",res)
         })
         .catch(err=>{
             console.log(err);
@@ -159,7 +163,7 @@ const AppRouter=()=>{
     const createComment=(postId)=>{
         postData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/create_comment/`,{
             content:newComment,
-            user:profile?.user
+            user:1
         })
         .then(()=>{
             console.log("Comment saved");
@@ -199,8 +203,8 @@ const AppRouter=()=>{
     }, [])
     return(
         <Context.Provider value={{signIn,signOut,posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
-            savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,
-            getUsersPosts,getComments,comments,getPostDetails,post,createComment,newComment,setNewComment,like,createDeleteLike
+            savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,currentUser,profile,
+            getUsersPosts,getComments,comments,getPostDetails,createComment,newComment,setNewComment,like,createDeleteLike,post
         }}>
             <Router>
                 <Switch>
@@ -208,6 +212,7 @@ const AppRouter=()=>{
                     <UsersStories exact path="/users-stories" component={UsersStories}></UsersStories>
                     <PostDetail exact path="/post-detail" component={PostDetail}></PostDetail>
                     <Profile exact path="/profile" component={Profile}></Profile>
+                    <EditPost exact path="/edit-post" component={EditPost}></EditPost>
                     <Route path="/" component={HomePage}></Route>
                 </Switch>
             </Router>
