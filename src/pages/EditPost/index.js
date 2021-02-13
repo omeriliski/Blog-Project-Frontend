@@ -30,16 +30,14 @@ const EditPost = (props) => {
         onSubmit: () => {
             consumer.updatePost(formik);
             console.log("formik",formik);
-             history.push({
-                  pathname:"/post-detail",
-                  state:{postId:formik.values.id}
-                })
+            consumer.getPostDetails(localStorage.getItem("currentPostId"));
+            history.push("/post-detail");
             console.log("id:!!!!!!!!!",consumer.post.id);
         },
     });
     useEffect(() => {
-        console.log("props.location.state",props.location.state.postId)
-        consumer.getPostDetails(props.location.state.postId);
+        console.log("props.location.state",props.location.state.postId);
+        consumer.getPostDetails(localStorage.getItem("currentPostId"));
     }, [])
     return (
         <Grid container className={classes.container}>

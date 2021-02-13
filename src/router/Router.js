@@ -140,7 +140,7 @@ const AppRouter=()=>{
         })
         .then(()=>{
             console.log("updated",postUpdateData.values);
-            // history.push("/post-detail");
+            
         })
         .catch((err)=>{
             console.log(err,postUpdateData);
