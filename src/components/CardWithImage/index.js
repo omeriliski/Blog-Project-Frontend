@@ -46,10 +46,19 @@ export default function MediaControlCard({data}) {
             {data?.content?.length > 150 ? data?.content?.substring(0, 147) + "..." : data?.content}
           </Typography>
           {/* <Link  onClick={()=> consumer.getPostDetails(data?.id)} href="/post-detail">More</Link> */}
-          <Button onClick={()=>{
+          {/* <Button onClick={()=>{
                 consumer.getPostDetails(data?.id) 
                 history.push("/post-detail")
-              }}>More</Button>
+              }}>More</Button> */}
+          <Button onClick={()=>{
+                // history.push({
+                //   pathname:"/post-detail",
+                //   state:{postId:data?.id}
+                // })
+                history.push("/post-detail");
+                localStorage.setItem("currentPostId",data.id);
+                consumer.setCurrentPostId(data.id)
+          }}>More</Button>
           <Typography align="left" variant="body2" color="textSecondary">
             {Moment(data?.publish_date).format('MMM d YYYY')}
           </Typography>

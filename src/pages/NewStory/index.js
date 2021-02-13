@@ -20,7 +20,6 @@ const NewStory=()=>{
                 <TextField  onChange={(e)=>consumer.setTitle(e.target.value)} fullWidth id="standard-basic"  placeholder="Title"/>
                 <TextField onChange={(e)=>consumer.setContent(e.target.value)} multiline fullWidth id="outlined-multiline-static"  placeholder="Text" rows="35"/>
             </Grid>
-            
         </Grid>
     )
 }

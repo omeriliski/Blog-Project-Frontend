@@ -8,6 +8,7 @@ import NewStory from '../pages/NewStory';
 import UsersStories from '../pages/UsersStories';
 import PostDetail from '../pages/PostDetail';
 import {postData} from '../helper/postData';
+import {putData} from '../helper/putData';
 import {privateFetchData} from '../helper/FetchData';
 import Profile from '../pages/Profile';
 import EditPost from '../pages/EditPost';
@@ -30,6 +31,7 @@ const AppRouter=()=>{
     const [comments,setComments]=useState();
     const [newComment,setNewComment]=useState();
     const [like,setLike]=useState();
+    const [currentPostId,setCurrentPostId]=useState();
 
 
     let history = useHistory();
@@ -121,12 +123,30 @@ const AppRouter=()=>{
             //author musst be fixed
         })
         .then(()=>{
-            console.log("saved successfully")
+            console.log("saved")
         })
         .catch((err)=>{
             console.log(err);
         })
     }
+    const updatePost=(postUpdateData)=>{
+        putData(`https://mein-blog-projekt.herokuapp.com/api/${postUpdateData.values.id}/update_delete_post/`,{
+            title:postUpdateData.values.title,
+            content:postUpdateData.values.content,
+            image:"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cyclooil.com%2Fimages%2F&psig=AOvVaw0N6O-AfOMPh3Mn6bzhXLph&ust=1612731828713000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDdtrGU1u4CFQAAAAAdAAAAABAD",
+            category:postUpdateData.values.category,
+            author:postUpdateData.values.author
+            //author musst be fixed
+        })
+        .then(()=>{
+            console.log("updated",postUpdateData.values);
+            // history.push("/post-detail");
+        })
+        .catch((err)=>{
+            console.log(err,postUpdateData);
+        })
+    }
+
     const getUsersPosts=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/api/get_usersposts/")
         .then((res)=>{
@@ -151,13 +171,16 @@ const AppRouter=()=>{
     const getPostDetails=(postId)=>{
          fetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_post/`)
          .then((res)=>{
-            setPost(res.data);
+            setPost(res?.data);
             getComments(postId);
             getLikesCount(postId)
             console.log("post details",res)
+            console.log("postId",postId)
+            console.log("post",post)
         })
         .catch(err=>{
             console.log(err);
+            console.log("postId",postId)
         })
     }
     const createComment=(postId)=>{
@@ -198,13 +221,15 @@ const AppRouter=()=>{
         fetchData("https://mein-blog-projekt.herokuapp.com/api/get_posts/")
         .then(res=>{
             setPosts(res.data);
+            console.log("currentPostId",currentPostId);
         })
         .catch(err=>console.log(err))
     }, [])
     return(
         <Context.Provider value={{signIn,signOut,posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
-            savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,currentUser,profile,
-            getUsersPosts,getComments,comments,getPostDetails,createComment,newComment,setNewComment,like,createDeleteLike,post
+            savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,currentUser,profile,updatePost,
+            getUsersPosts,getComments,comments,getPostDetails,createComment,newComment,setNewComment,like,createDeleteLike,post,
+            currentPostId,setCurrentPostId
         }}>
             <Router>
                 <Switch>
