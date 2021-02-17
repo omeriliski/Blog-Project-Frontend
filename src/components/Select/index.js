@@ -21,10 +21,9 @@ const useStyles = makeStyles((theme) => ({
 export const SelectCategories=()=>{
 
   const handleChange = (event) => {
-    consumer.categories.forEach(element => {
-      console.log(element)
-      if(element.name==event.target.value)
-        consumer.setCategory(element.id)
+    consumer.categories.forEach(category => {
+      if(category.name==event.target.value)
+        consumer.setCategory(category.id)
     });
   };
   const consumer = useContext(Context);

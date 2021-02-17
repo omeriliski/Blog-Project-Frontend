@@ -6,6 +6,8 @@ import logo from '../../assets/logo.png'
 import {Grid,Link,Button,makeStyles} from '@material-ui/core'
 import {Context} from '../../router/Router';
 
+// https://i.vimeocdn.com/video/974535693.webp?mw=1000&amp;mh=1000
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,13 +47,13 @@ export function MenuAppBar() {
                     <NavLogo src={logo}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Link className={classes.link} href="#" variant="body2" color="inherit">Our Story</Link>
-                    <Link className={classes.link} href="#" variant="body2" color="inherit">Membership</Link>
-                    <Link className={classes.link} href="/new-story" variant="body2" color="inherit">Write</Link>
+                    <Link className={classes.link} href="#" variant="body2" color="inherit" underline="none">Our Story</Link>                    
                     {localStorage.getItem("token") ?
                     <>
-                      <Link className={classes.link} onClick={consumer.signOut} href="/" variant="body2" color="inherit">Sign Out</Link>
-                      <Link href="/profile">{localStorage.getItem("email")}</Link>
+                      <Link className={classes.link} href="/users-stories" variant="body2" color="inherit" underline="none">My Stories</Link>
+                      <Link className={classes.link} href="/new-story" variant="body2" color="inherit" underline="none">Write</Link>
+                      <Link className={classes.link} onClick={consumer.signOut} href="/" variant="body2" color="inherit" underline="none">Sign Out</Link>
+                      <Link href="/profile" underline="none">{localStorage.getItem("email")}</Link>
                     </>
                     :<>
                       <Link className={classes.link} onClick={()=>consumer.handleOpenRegister()} href="#" variant="body2" color="inherit">Register</Link>

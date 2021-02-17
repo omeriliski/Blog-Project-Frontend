@@ -40,17 +40,9 @@ function Register() {
             })
             .then(()=>{
                 consumer.handleCloseRegister();
-                console.log(formik.values)
-                console.log("registered")
             })
         .catch ((error)=> {
-            //consumer.setDisabledUser(formik.values);
-            // history.push({
-            //     pathname:"/inUse",
-            //     state:{email:formik.values.email}
-            // });
             console.log("not registered")
-            console.log(formik.values)
         })
     }
     const formik = useFormik({

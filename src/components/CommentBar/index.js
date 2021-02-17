@@ -22,7 +22,6 @@ const CommentBar=({likesCount,commentsCount,post,createDeleteLike})=>{
                 {/* <Typography className={classess.typography} variant="body2"></Typography> */}
             </Grid>
             <Button onClick={()=>{
-                console.log("!!!!!post Commend Bar!!!!!",consumer?.post)
                 history.push({
                     pathname:"/edit-post",
                     state:{postId:consumer?.post?.id}

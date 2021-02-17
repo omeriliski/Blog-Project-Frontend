@@ -1,6 +1,6 @@
-import { useRef, useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { StoriesNavbar } from '../../components/StoriesNavbar';
-import { Grid, TextField, Typography, Link, Button, makeStyles } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { styles } from './EditPost.style';
 import {Context} from '../../router/Router';
 import {SelectCategories} from '../../components/Select';
@@ -29,15 +29,13 @@ const EditPost = (props) => {
         // }),
         onSubmit: () => {
             consumer.updatePost(formik);
-            console.log("formik",formik);
             consumer.getPostDetails(localStorage.getItem("currentPostId"));
             history.push("/post-detail");
-            console.log("id:!!!!!!!!!",consumer.post.id);
         },
     });
     useEffect(() => {
-        console.log("props.location.state",props.location.state.postId);
         consumer.getPostDetails(localStorage.getItem("currentPostId"));
+        console.log("post Editpost Page",consumer?.post)
     }, [])
     return (
         <Grid container className={classes.container}>

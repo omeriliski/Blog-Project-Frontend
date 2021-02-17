@@ -1,4 +1,4 @@
-import {useRef,useContext} from 'react';
+import {useRef,useContext,useEffect} from 'react';
 import {PrivateNavbar} from '../../components/PrivatNavbar';
 import {Grid,TextField} from '@material-ui/core';
 import {styles} from './NewStory.style'
@@ -10,6 +10,9 @@ const NewStory=()=>{
     const classes = styles();
     const title = useRef(null);
     const content = useRef(null);
+    useEffect(() => {
+        consumer.getProfile();
+    }, [])
     return(
         <Grid container>
             <PrivateNavbar/>

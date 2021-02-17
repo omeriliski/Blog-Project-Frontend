@@ -11,6 +11,7 @@ import {postData} from '../helper/postData';
 import {putData} from '../helper/putData';
 import {privateFetchData} from '../helper/FetchData';
 import Profile from '../pages/Profile';
+import EditProfile from '../pages/EditProfile';
 import EditPost from '../pages/EditPost';
 
 export const Context=createContext();
@@ -68,8 +69,6 @@ const AppRouter=()=>{
             localStorage.setItem("token", res.data.key);
             localStorage.setItem("email", formik.values.Email);
             setCurrentUser(res.config.data);
-            console.log("token", res.data.key);
-            console.log("data", res.config.data);
             handleCloseLogin();
             getProfile();
         })
@@ -94,10 +93,18 @@ const AppRouter=()=>{
     } 
     const getProfile=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/users/get_update_profile/")
+        .then(async(res)=>{
+            await setProfile(res);
+            console.log("profile router:", res)
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    const updateProfile=()=>{
+        putData("https://mein-blog-projekt.herokuapp.com/admin/users/get_update_profile/")
         .then((res)=>{
             console.log("res",res);
-            setProfile(res);
-            console.log("currentUser",currentUser)
         })
         .catch((err)=>{
             console.log(err)
@@ -106,7 +113,7 @@ const AppRouter=()=>{
     const getCategories=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/api/get_categories/",)
         .then((res)=>{
-            console.log("res",res);
+            
             setCategories(res);
         })
         .catch((err)=>{
@@ -151,7 +158,6 @@ const AppRouter=()=>{
         privateFetchData("https://mein-blog-projekt.herokuapp.com/api/get_usersposts/")
         .then((res)=>{
             setUsersPost(res);
-            console.log("users posts",res)
         })
         .catch(err=>{
             console.log(err);
@@ -174,13 +180,9 @@ const AppRouter=()=>{
             setPost(res?.data);
             getComments(postId);
             getLikesCount(postId)
-            console.log("post details",res)
-            console.log("postId",postId)
-            console.log("post",post)
         })
         .catch(err=>{
             console.log(err);
-            console.log("postId",postId)
         })
     }
     const createComment=(postId)=>{
@@ -200,7 +202,6 @@ const AppRouter=()=>{
         privateFetchData(`https://mein-blog-projekt.herokuapp.com/api/${postId}/get_likes/`)
         .then((res)=>{
             setLike(res);
-            console.log("getLikesCount",res)
         })
         .catch(err=>{
             console.log(err);  
@@ -209,11 +210,9 @@ const AppRouter=()=>{
     const createDeleteLike=(postId)=>{
         postData(`https://dashboard.heroku.com/apps/mein-blog-projekt/${postId}/create_delete_like/`)
         .then((res)=>{
-            console.log("liked",res);
             getLikesCount(postId);
         })
         .catch(err=>{
-            console.log("disliked");  
             console.log(err);  
         })
     }
@@ -221,7 +220,6 @@ const AppRouter=()=>{
         fetchData("https://mein-blog-projekt.herokuapp.com/api/get_posts/")
         .then(res=>{
             setPosts(res.data);
-            console.log("currentPostId",currentPostId);
         })
         .catch(err=>console.log(err))
     }, [])
@@ -229,7 +227,7 @@ const AppRouter=()=>{
         <Context.Provider value={{signIn,signOut,posts,handleOpenLogin,handleCloseLogin,handleOpenRegister,handleCloseRegister,openLogin,openRegister,
             savePost,setTitle,setContent,getCategories,categories,setCategory, category, usersPosts,currentUser,profile,updatePost,
             getUsersPosts,getComments,comments,getPostDetails,createComment,newComment,setNewComment,like,createDeleteLike,post,
-            currentPostId,setCurrentPostId
+            currentPostId,setCurrentPostId,getProfile,updateProfile
         }}>
             <Router>
                 <Switch>
@@ -237,6 +235,7 @@ const AppRouter=()=>{
                     <UsersStories exact path="/users-stories" component={UsersStories}></UsersStories>
                     <PostDetail exact path="/post-detail" component={PostDetail}></PostDetail>
                     <Profile exact path="/profile" component={Profile}></Profile>
+                    <EditProfile exact path="/edit-profil" component={EditProfile}></EditProfile>
                     <EditPost exact path="/edit-post" component={EditPost}></EditPost>
                     <Route path="/" component={HomePage}></Route>
                 </Switch>

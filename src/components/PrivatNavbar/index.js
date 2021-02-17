@@ -47,14 +47,14 @@ export function PrivateNavbar() {
                 <Grid item xs={12} md={6}>
                   <Grid item xs={6} md={4}>
                     <Link href="/"><NavLogo src={logo2}/></Link> 
-                    <Typography style={{paddingTop:"5px", color:"gray"}} variant="body2" gutterBottom>Draft in Ömer.</Typography>
+                    <Typography style={{paddingTop:"5px", color:"gray"}} variant="body2" gutterBottom>Draft in {consumer?.profile?.user}</Typography>
                   </Grid>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Button href="/users-stories" onClick={()=>consumer.savePost()} className={classes.publishButton} variant="contained" size="small" >Publish</Button>
                     <Button><MoreHorizIcon className={classes.moreIcon}/></Button>
                     <Button><NotificationsNoneOutlinedIcon style={{color:"gray"}}/></Button>
-                    <Link href="/profile">{localStorage.getItem("email")}</Link>
+                    <Link href="/profile" underline="none">{localStorage.getItem("email")}</Link>
                   </Grid>
             </Grid>
         </Toolbar>
